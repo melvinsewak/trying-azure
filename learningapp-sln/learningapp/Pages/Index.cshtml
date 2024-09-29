@@ -24,9 +24,9 @@
             @foreach(Course course in @Model.Courses)
             {
             <tr>
-            <th scope="row">@course.CourseID</th>
-            <td>@course.CourseName</td>
-            <td>@course.Rating</td>            
+            <th scope="row">@course?.CourseID</th>
+            <td>@course?.CourseName</td>
+            <td>@course?.Rating</td>            
           </tr>
           }
 
