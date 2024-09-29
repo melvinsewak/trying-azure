@@ -1,4 +1,5 @@
 using Azure.Identity;
+using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,10 +8,14 @@ builder.Services.AddRazorPages();
 builder.Configuration
 .AddJsonFile("appsettings.json")
 .AddEnvironmentVariables()
-.AddAzureAppConfiguration(options =>
+.AddAzureAppConfiguration(options =>{
     options.Connect(
         new Uri(builder.Configuration["AppConfig:Endpoint"]!),
-        new ManagedIdentityCredential()));
+        new ManagedIdentityCredential());
+    options.UseFeatureFlags();
+    }
+);
+builder.Services.AddFeatureManagement();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
