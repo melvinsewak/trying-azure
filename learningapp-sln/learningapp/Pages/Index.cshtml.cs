@@ -18,36 +18,36 @@ public class IndexModel : PageModel
         _configuration=configuration;
     }
 
-    public async Task<IActionResult> OnGet()
+    public void OnGet()
     {
-        // var commonSettings = _configuration.GetSection("Common:Settings");
-        // version = commonSettings.GetValue<string>("version")!;
-        // var dbPassword = commonSettings.GetValue<string>("dbPassword");
-        // string connectionString = string.Format(commonSettings.GetValue<string>("AZURE_SQL_CONNECTIONSTRING")!, dbPassword);
+        var commonSettings = _configuration.GetSection("Common:Settings");
+        version = commonSettings.GetValue<string>("version")!;
+        var dbPassword = commonSettings.GetValue<string>("dbPassword");
+        string connectionString = string.Format(commonSettings.GetValue<string>("AZURE_SQL_CONNECTIONSTRING")!, dbPassword);
 
-        // var sqlConnection = new SqlConnection(connectionString);
-        // sqlConnection.Open();
+        var sqlConnection = new SqlConnection(connectionString);
+        sqlConnection.Open();
 
-        // var sqlcommand = new SqlCommand(
-        // "SELECT CourseID,CourseName,Rating FROM Course;",sqlConnection);
-        //  using (SqlDataReader sqlDatareader = sqlcommand.ExecuteReader())
-        //  {
-        //      while (sqlDatareader.Read())
-        //         {
-        //             Courses.Add(new Course() {CourseID=Int32.Parse(sqlDatareader["CourseID"].ToString()),
-        //             CourseName=sqlDatareader["CourseName"].ToString(),
-        //             Rating=Decimal.Parse(sqlDatareader["Rating"].ToString())});
-        //         }
-        //  }
+        var sqlcommand = new SqlCommand(
+        "SELECT CourseID,CourseName,Rating FROM Course;",sqlConnection);
+         using (SqlDataReader sqlDatareader = sqlcommand.ExecuteReader())
+         {
+             while (sqlDatareader.Read())
+                {
+                    Courses.Add(new Course() {CourseID=Int32.Parse(sqlDatareader["CourseID"].ToString()),
+                    CourseName=sqlDatareader["CourseName"].ToString(),
+                    Rating=Decimal.Parse(sqlDatareader["Rating"].ToString())});
+                }
+         }
 
-        string functionURL = "https://learningapp-azfuncapp.azurewebsites.net/api/GetCourses?code=AxpHN0Id51xsmpybM45XPiwY26lI9AwKu8mhL6f4wSl9AzFuvQrPGg%3D%3D";
+        // string functionURL = "https://learningapp-azfuncapp.azurewebsites.net/api/GetCourses?code=AxpHN0Id51xsmpybM45XPiwY26lI9AwKu8mhL6f4wSl9AzFuvQrPGg%3D%3D";
 
-        using(HttpClient client = new HttpClient()){
-            HttpResponseMessage msg = await client.GetAsync(functionURL);
-            string content = await msg.Content.ReadAsStringAsync();
-            Courses = JsonConvert.DeserializeObject<List<Course>>(content)!;
-        }
+        // using(HttpClient client = new HttpClient()){
+        //     HttpResponseMessage msg = await client.GetAsync(functionURL);
+        //     string content = await msg.Content.ReadAsStringAsync();
+        //     Courses = JsonConvert.DeserializeObject<List<Course>>(content)!;
+        // }
 
-        return Page();
+        // return Page();
     }
 }
