@@ -14,15 +14,14 @@ public class IndexModel : PageModel
     {
         _logger = logger;
         _configuration=configuration;
-        var section = _configuration.GetSection("CommonSettings");
-        version = section["version"]!;
     }
 
     public void OnGet()
     {
-        var dbPassword = _configuration["CommonSettings:dbPassword"];
-
-        string connectionString = string.Format(_configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")!, dbPassword);
+        var commonSettings = _configuration.GetSection("Common:Settings");
+        version = commonSettings.GetValue<string>("version")!;
+        var dbPassword = commonSettings.GetValue<string>("dbPassword");
+        string connectionString = string.Format(commonSettings.GetValue<string>("AZURE_SQL_CONNECTIONSTRING")!, dbPassword);
 
         var sqlConnection = new SqlConnection(connectionString);
         sqlConnection.Open();

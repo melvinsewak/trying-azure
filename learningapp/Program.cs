@@ -1,8 +1,14 @@
+using Azure.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Configuration
+.AddAzureAppConfiguration(options =>
+    options.Connect(
+        new Uri(builder.Configuration["AppConfig:Endpoint"]!),
+        new ManagedIdentityCredential()))
 .AddJsonFile("appsettings.json")
     .AddEnvironmentVariables();
 var app = builder.Build();
