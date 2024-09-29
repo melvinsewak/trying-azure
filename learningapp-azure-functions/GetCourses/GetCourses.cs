@@ -1,10 +1,14 @@
+using System.Net;
+using System.Text;
 using System.Text.Json.Serialization;
 using GetCourses;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace learningapp.azure.function
 {
@@ -18,7 +22,7 @@ namespace learningapp.azure.function
         }
 
         [Function("GetCourses")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function started processing a request.");
             List<Course> courses = new();
