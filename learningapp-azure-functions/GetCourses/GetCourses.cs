@@ -16,6 +16,7 @@ namespace learningapp.azure.function
         public GetCourses(ILogger<GetCourses> logger,IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         [Function("GetCourses")]
