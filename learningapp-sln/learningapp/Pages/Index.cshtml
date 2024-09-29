@@ -21,15 +21,16 @@
         </thead>
          
           <tbody>
-            @foreach(Course course in @Model.Courses)
-            {
-            <tr>
-            <th scope="row">@course?.CourseID</th>
-            <td>@course?.CourseName</td>
-            <td>@course?.Rating</td>            
-          </tr>
-          }
-
+            @if(Model.Courses != null){
+              foreach(Course course in @Model.Courses)
+              {
+                <tr>
+                <th scope="row">@course?.CourseID</th>
+                <td>@course?.CourseName</td>
+                <td>@course?.Rating</td>            
+              </tr>
+              }
+            }
           </tbody>  
     </table>
 </div>
