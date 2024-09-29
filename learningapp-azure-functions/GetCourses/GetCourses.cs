@@ -20,8 +20,12 @@ namespace learningapp.azure.function
         [Function("GetCourses")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult(JsonConvert.SerializeObject(new Course(){CourseID=1,CourseName="Dummy",Rating=5}));
+            _logger.LogInformation("C# HTTP trigger function started processing a request.");
+            List<Course> courses = new();
+            courses.Add(new Course(){CourseID=1,CourseName="Dummy",Rating=5});
+            var jsonStr = JsonConvert.SerializeObject(courses);
+            _logger.LogInformation("C# HTTP trigger function finished processing a request.");
+            return new OkObjectResult(jsonStr);
         }
     }
 }
